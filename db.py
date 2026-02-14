@@ -175,6 +175,42 @@ def add_attendee(event_id: str, record: dict) -> dict | None:
         st.error(f"DB Error (add_attendee): {e}")
     return None
 
+def add_attendee_async(event_id: str, record: dict):
+    """Non-blocking attendee insert using a background thread."""
+    import threading
+    def _worker():
+        try:
+            add_attendee(event_id, record)
+        except:
+            pass  # Fail silently in background
+    threading.Thread(target=_worker, daemon=True).start()
+
+def batch_add_attendees(event_id: str, records: list):
+    """Insert multiple attendees in a single API call."""
+    sb = get_supabase_client()
+    if not sb: return
+    try:
+        rows = []
+        for record in records:
+            encoding = record.get('encoding', [])
+            if hasattr(encoding, 'tolist'):
+                encoding = encoding.tolist()
+            rows.append({
+                "event_id": event_id,
+                "name": record.get('name', ''),
+                "gender": record.get('gender', ''),
+                "seat": record.get('seat', ''),
+                "student_id": record.get('id', ''),
+                "branch": record.get('branch', ''),
+                "age": int(record.get('age', 0)),
+                "encoding": json.dumps(encoding),
+                "timestamp": record.get('timestamp', str(datetime.now()))
+            })
+        if rows:
+            sb.table("attendees").insert(rows).execute()
+    except Exception as e:
+        st.error(f"DB Error (batch_add): {e}")
+
 def get_attendees(event_id: str) -> list:
     """Fetch all attendees for an event. Parses encoding back from JSON."""
     sb = get_supabase_client()

@@ -591,6 +591,13 @@ def event_menu():
 
 def attendance_setup(evt):
     st.subheader("🏁 Start Attendance Session")
+    
+    # Pre-warm FaceEngine so it's ready before user takes a photo
+    if st.session_state.face_engine is None:
+        with st.spinner("🔄 Loading AI models (one-time)..."):
+            get_face_engine()
+        st.success("✅ AI Ready!")
+    
     mode = st.selectbox("Select Mode", ["Normal (Full Data)", "Privacy (No Personal Data)"])
     if st.button("Start Session", type="primary"):
         st.session_state.temp_mode = mode
@@ -691,8 +698,9 @@ def attendance_active(evt):
             matched_name = ""
             
             new_encoding = np.array(face['encoding'])
-            known_encs = get_face_engine().known_encodings
-            known_ids = get_face_engine().known_ids
+            fe = get_face_engine()  # Cache reference
+            known_encs = fe.known_encodings
+            known_ids = fe.known_ids
             current_evt_id = st.session_state.current_event
             
             if len(known_encs) > 0:
@@ -743,12 +751,13 @@ def attendance_active(evt):
                                 "timestamp": str(datetime.now())
                             }
                             evt['data'].append(record)
-                            db.add_attendee(st.session_state.current_event, record)
+                            db.add_attendee_async(st.session_state.current_event, record)
                             
                             # Add to known faces logic from previous code
                             if "Privacy" not in mode:
-                                get_face_engine().known_encodings.append(np.array(face['encoding']))
-                                get_face_engine().known_ids.append({'name': name, 'event_id': st.session_state.current_event})
+                                fe = get_face_engine()
+                                fe.known_encodings.append(np.array(face['encoding']))
+                                fe.known_ids.append({'name': name, 'event_id': st.session_state.current_event})
 
                             st.success(f"✅ Saved {name}!")
                             st.session_state.current_face_idx += 1
@@ -795,8 +804,7 @@ def database_view(evt):
                     evt['data'] = edited_df.to_dict('records')
                     # Sync to DB: clear and re-add
                     db.clear_attendees(st.session_state.current_event)
-                    for rec in evt['data']:
-                        db.add_attendee(st.session_state.current_event, rec)
+                    db.batch_add_attendees(st.session_state.current_event, evt['data'])
                     st.success("✅ Changes Saved!")
                     st.rerun()
     else:
