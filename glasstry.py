@@ -20,7 +20,6 @@ import cv2
 
 # Custom Modules
 try:
-    from face_engine import FaceEngine, draw_results
     from utils import SeatingManager, TeamManager
 except ImportError as e:
     st.error(f"Missing modules: {e}")
@@ -28,8 +27,15 @@ except ImportError as e:
 
 import db  # Supabase database layer
 
+def get_face_engine():
+    """Lazy-load FaceEngine to avoid TensorFlow startup on every page load."""
+    if 'face_engine' not in st.session_state or st.session_state.face_engine is None:
+        from face_engine import FaceEngine
+        st.session_state.face_engine = FaceEngine()
+    return st.session_state.face_engine
+
 # --- STATE INITIALIZATION ---
-if 'face_engine' not in st.session_state: st.session_state.face_engine = FaceEngine()
+if 'face_engine' not in st.session_state: st.session_state.face_engine = None
 if 'main_folders' not in st.session_state: st.session_state.main_folders = {}
 if 'events' not in st.session_state: st.session_state.events = {} 
 if 'current_user' not in st.session_state: st.session_state.current_user = None
@@ -622,7 +628,7 @@ def attendance_active(evt):
                     image = Image.open(img_buffer)
                     # Use the face engine
                     detection_backend = "ssd" # Default
-                    faces = st.session_state.face_engine.process_image(image, detector_backend=detection_backend)
+                    faces = get_face_engine().process_image(image, detector_backend=detection_backend)
                     st.session_state.detected_faces = faces
                     st.session_state.current_face_idx = 0
             
@@ -684,8 +690,8 @@ def attendance_active(evt):
             matched_name = ""
             
             new_encoding = np.array(face['encoding'])
-            known_encs = st.session_state.face_engine.known_encodings
-            known_ids = st.session_state.face_engine.known_ids
+            known_encs = get_face_engine().known_encodings
+            known_ids = get_face_engine().known_ids
             current_evt_id = st.session_state.current_event
             
             if len(known_encs) > 0:
@@ -740,8 +746,8 @@ def attendance_active(evt):
                             
                             # Add to known faces logic from previous code
                             if "Privacy" not in mode:
-                                st.session_state.face_engine.known_encodings.append(np.array(face['encoding']))
-                                st.session_state.face_engine.known_ids.append({'name': name, 'event_id': st.session_state.current_event})
+                                get_face_engine().known_encodings.append(np.array(face['encoding']))
+                                get_face_engine().known_ids.append({'name': name, 'event_id': st.session_state.current_event})
 
                             st.success(f"✅ Saved {name}!")
                             st.session_state.current_face_idx += 1
@@ -1203,7 +1209,7 @@ def batch_upload_page(evt):
                 try:
                     # Detect
                     image = Image.open(img_file)
-                    faces = st.session_state.face_engine.process_image(image, detector_backend="ssd")
+                    faces = get_face_engine().process_image(image, detector_backend="ssd")
                     
                     if faces:
                         # Check strict capacity before adding
@@ -1219,8 +1225,8 @@ def batch_upload_page(evt):
                         for f_idx, face in enumerate(faces):
                             # DUPLICATE CHECK
                             new_encoding = np.array(face['encoding'])
-                            known_encs = st.session_state.face_engine.known_encodings
-                            known_ids = st.session_state.face_engine.known_ids
+                            known_encs = get_face_engine().known_encodings
+                            known_ids = get_face_engine().known_ids
                             current_evt_id = st.session_state.current_event
                             
                             match_found = False
@@ -1289,8 +1295,8 @@ def batch_upload_page(evt):
                             db.add_attendee(st.session_state.current_event, record)
                             
                             # Add to known faces
-                            st.session_state.face_engine.known_encodings.append(np.array(face['encoding']))
-                            st.session_state.face_engine.known_ids.append({'name': p_label, 'event_id': current_evt_id})
+                            get_face_engine().known_encodings.append(np.array(face['encoding']))
+                            get_face_engine().known_ids.append({'name': p_label, 'event_id': current_evt_id})
                             
                             processed_count += 1
                     else:
