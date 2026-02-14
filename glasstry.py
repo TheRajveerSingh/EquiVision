@@ -16,7 +16,7 @@ import base64
 import tempfile
 import plotly.express as px
 import plotly.graph_objects as go
-import cv2
+# cv2 is imported lazily inside draw_faces() to avoid cloud startup issues
 
 # Custom Modules
 try:
@@ -318,6 +318,7 @@ def local_css():
 local_css()
 
 def draw_faces(image_pil, faces, current_idx):
+    import cv2
     img_cv = np.array(image_pil)
     img_cv = cv2.cvtColor(img_cv, cv2.COLOR_RGB2BGR)
     
