@@ -751,7 +751,6 @@ def attendance_active(evt):
                                 "timestamp": str(datetime.now())
                             }
                             evt['data'].append(record)
-                            db.add_attendee_async(st.session_state.current_event, record)
                             
                             # Add to known faces logic from previous code
                             if "Privacy" not in mode:
@@ -774,6 +773,10 @@ def attendance_active(evt):
 
     st.markdown("---")
     if st.button("End Session"):
+        # Batch-sync all attendees to Supabase on session end
+        with st.spinner("☁️ Syncing to cloud..."):
+            db.clear_attendees(st.session_state.current_event)
+            db.batch_add_attendees(st.session_state.current_event, evt['data'])
         st.session_state.subpage = None
         st.rerun()
 
@@ -1301,11 +1304,11 @@ def batch_upload_page(evt):
                                 "timestamp": str(datetime.now())
                             }
                             evt['data'].append(record)
-                            db.add_attendee(st.session_state.current_event, record)
                             
                             # Add to known faces
-                            get_face_engine().known_encodings.append(np.array(face['encoding']))
-                            get_face_engine().known_ids.append({'name': p_label, 'event_id': current_evt_id})
+                            fe = get_face_engine()
+                            fe.known_encodings.append(np.array(face['encoding']))
+                            fe.known_ids.append({'name': p_label, 'event_id': current_evt_id})
                             
                             processed_count += 1
                     else:
