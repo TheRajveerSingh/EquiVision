@@ -1,0 +1,17 @@
+{
+  "events": {
+    "Harsh_Birthday_2026-02-15": {
+      "name": "Harsh Birthday",
+      "date": "2026-02-15",
+      "password": "123456",
+      "hall_rows": 5,
+      "hall_cols": 10,
+      "cluster_size": 2,
+      "data": [],
+      "roles": {},
+      "team_members": []
+    }
+  },
+  "folders": {},
+  "saved_at": "2026-02-15 02:20:01.927563"
+}

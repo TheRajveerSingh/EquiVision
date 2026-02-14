@@ -3,7 +3,6 @@ import pandas as pd
 import numpy as np
 from PIL import Image
 from datetime import datetime
-from datetime import datetime
 import time
 import random
 import string
@@ -25,7 +24,7 @@ except ImportError as e:
     st.error(f"Missing modules: {e}")
     st.stop()
 
-import db  # Supabase database layer
+import local_store  # Local JSON persistence
 
 def get_face_engine():
     """Lazy-load FaceEngine to avoid TensorFlow startup on every page load."""
@@ -48,53 +47,28 @@ if 'verification_code' not in st.session_state: st.session_state.verification_co
 if 'upload_key' not in st.session_state: st.session_state.upload_key = 0
 if 'db_loaded' not in st.session_state: st.session_state.db_loaded = False
 
-def load_from_db():
-    """Sync events and folders from Supabase into session state."""
+def load_local_data():
+    """Load events and folders from local JSON file."""
     uid = st.session_state.user_id
     if not uid: return
     
-    # Load events
-    events_raw = db.get_events(uid)
-    for e in events_raw:
-        eid = e['id']
-        if eid not in st.session_state.events:
-            tm = e.get('team_members', '[]')
-            if isinstance(tm, str):
-                try: tm = __import__('json').loads(tm)
-                except: tm = []
-            elif tm is None: tm = []
-            
-            rl = e.get('roles', '[]')
-            if isinstance(rl, str):
-                try: rl = __import__('json').loads(rl)
-                except: rl = {}
-            elif rl is None: rl = {}
-            
-            st.session_state.events[eid] = {
-                'name': e.get('name', ''),
-                'date': e.get('date', ''),
-                'password': e.get('password', ''),
-                'hall_rows': e.get('hall_rows', 5),
-                'hall_cols': e.get('hall_cols', 10),
-                'cluster_size': e.get('cluster_size', 1),
-                'data': db.get_attendees(eid),
-                'roles': rl if isinstance(rl, dict) else {},
-                'team_members': tm if isinstance(tm, list) else []
-            }
+    events, folders = local_store.load_session(uid)
     
-    # Load folders
-    folders_raw = db.get_folders(uid)
-    for f in folders_raw:
-        fname = f.get('name', '')
+    for eid, evt in events.items():
+        if eid not in st.session_state.events:
+            st.session_state.events[eid] = evt
+    
+    for fname, fdata in folders.items():
         if fname not in st.session_state.main_folders:
-            folder_event_ids = db.get_folder_events(f['id'])
-            st.session_state.main_folders[fname] = {
-                'date': f.get('date', ''),
-                'events': folder_event_ids,
-                'db_id': f['id']
-            }
+            st.session_state.main_folders[fname] = fdata
     
     st.session_state.db_loaded = True
+
+def save_local_data():
+    """Save current session to local JSON file."""
+    uid = st.session_state.user_id
+    if not uid: return
+    local_store.save_session(uid, st.session_state.events, st.session_state.main_folders)
 
 st.set_page_config(page_title="Gender Attendance AI", layout="wide")
 
@@ -395,7 +369,7 @@ def login_page():
             
             if auth_mode == "Sign In":
                 if st.button("Sign In", type="primary", use_container_width=True):
-                    user = db.authenticate(username, password)
+                    user = local_store.authenticate(username, password)
                     if user:
                         st.session_state.current_user = user['username']
                         st.session_state.user_id = user['id']
@@ -409,7 +383,7 @@ def login_page():
             else:
                 if st.button("Create Account", type="primary", use_container_width=True):
                     if username and password:
-                        user = db.create_user(username, password)
+                        user = local_store.create_user(username, password)
                         if user:
                             st.session_state.current_user = user['username']
                             st.session_state.user_id = user['id']
@@ -426,9 +400,9 @@ def login_page():
 def home_page():
     render_header()
     
-    # Load data from DB if not already loaded
+    # Load data from local files if not already loaded
     if not st.session_state.db_loaded:
-        load_from_db()
+        load_local_data()
     
     # Time & Greeting
     now = datetime.now()
@@ -480,12 +454,7 @@ def create_event():
             if name and password:
                 eid = f"{name}_{str(date)}".replace(" ", "_")
                 
-                # Save to Supabase
-                db.create_event(
-                    user_id=st.session_state.user_id,
-                    event_id=eid, name=name, password=password,
-                    hall_rows=5, hall_cols=10, cluster_size=1
-                )
+                # Save locally
                 
                 # Also keep in session state
                 st.session_state.events[eid] = {
@@ -500,6 +469,7 @@ def create_event():
                     "team_members": []
                 }
                 st.success(f"✅ Event '{name}' Created!")
+                save_local_data()  # Persist to local JSON
                 st.session_state.page = "events_list"
                 time.sleep(1)
                 st.rerun()
@@ -773,10 +743,7 @@ def attendance_active(evt):
 
     st.markdown("---")
     if st.button("End Session"):
-        # Batch-sync all attendees to Supabase on session end
-        with st.spinner("☁️ Syncing to cloud..."):
-            db.clear_attendees(st.session_state.current_event)
-            db.batch_add_attendees(st.session_state.current_event, evt['data'])
+        save_local_data()  # Save to local JSON
         st.session_state.subpage = None
         st.rerun()
 
@@ -805,9 +772,7 @@ def database_view(evt):
                 if st.button("💾 Save Changes"):
                     # Convert back to list of dicts
                     evt['data'] = edited_df.to_dict('records')
-                    # Sync to DB: clear and re-add
-                    db.clear_attendees(st.session_state.current_event)
-                    db.batch_add_attendees(st.session_state.current_event, evt['data'])
+                    save_local_data()  # Save to local JSON
                     st.success("✅ Changes Saved!")
                     st.rerun()
     else:
@@ -1134,11 +1099,7 @@ def hall_dims(evt):
     evt['cluster_size'] = st.number_input("Cluster Size (Same Gender Grouping)", 1, 10, evt.get('cluster_size', 1), help="Number of students of same gender to seat together (e.g. 3 Boys, 3 Girls...)")
     
     if st.button("💾 Save Dimensions"):
-        db.update_event(st.session_state.current_event, {
-            'hall_rows': evt['hall_rows'],
-            'hall_cols': evt['hall_cols'],
-            'cluster_size': evt['cluster_size']
-        })
+        save_local_data()  # Persist locally
         st.success(f"✅ Dimensions Saved! Cluster: {evt.get('cluster_size', 1)}")
 
 def team_analysis(evt):
@@ -1334,9 +1295,8 @@ def create_folder():
     st.header("📁 Create Main Event Folder")
     f_name = st.text_input("Folder Name")
     if st.button("Create"):
-        folder = db.create_folder(st.session_state.user_id, f_name)
-        folder_db_id = folder['id'] if folder else None
-        st.session_state.main_folders[f_name] = {"date": str(datetime.now().date()), "events": [], "db_id": folder_db_id}
+        st.session_state.main_folders[f_name] = {"date": str(datetime.now().date()), "events": []}
+        save_local_data()
         st.success("Created!")
         st.session_state.page = "home"
         st.rerun()
@@ -1361,8 +1321,7 @@ def view_folders():
             sel_evt = st.selectbox("Add Event to Folder", avail, key=f"sel_add_{fname}")
             if st.button("Add", key=f"btn_add_{fname}"):
                 fdata['events'].append(sel_evt)
-                if fdata.get('db_id'):
-                    db.add_event_to_folder(fdata['db_id'], sel_evt)
+                save_local_data()
                 st.success("Added!")
                 st.rerun()
                 
@@ -1481,7 +1440,7 @@ def team_management(evt):
                 
                 if r_name and reqs:
                     evt['roles'][r_name] = {'count': r_count, 'reqs': reqs}
-                    db.save_roles(st.session_state.current_event, evt['roles'])
+                    save_local_data()
                     st.success(f"Role '{r_name}' added with {len(reqs)} skills!")
                     st.rerun()
                 else:
@@ -1537,7 +1496,7 @@ def team_management(evt):
                         'gender': gender,
                         'skills': candidate_skills # List of strings now
                     })
-                    db.save_team_members(st.session_state.current_event, evt['team_members'])
+                    save_local_data()
                     st.success(f"{name} added!")
                     st.rerun()
                 else:
@@ -1594,7 +1553,7 @@ def team_management(evt):
                             })
                         
                         evt['team_members'] = new_members
-                        db.save_team_members(st.session_state.current_event, evt['team_members'])
+                        save_local_data()
                         st.success("✅ Changes Saved!")
                         st.rerun()
                 elif pwd:
