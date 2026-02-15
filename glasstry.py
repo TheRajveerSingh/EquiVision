@@ -26,6 +26,13 @@ except ImportError as e:
 
 import local_store  # Local JSON persistence
 
+# Premium UI components
+from ui import (
+    inject_theme, hero_title, glass_card, menu_card, glass_navbar,
+    welcome_animation, success_confetti, loading_skeleton,
+    greeting_banner, section_heading, event_list_card,
+)
+
 def get_face_engine():
     """Lazy-load FaceEngine to avoid TensorFlow startup on every page load."""
     if 'face_engine' not in st.session_state or st.session_state.face_engine is None:
@@ -72,224 +79,9 @@ def save_local_data():
 
 st.set_page_config(page_title="Gender Attendance AI", layout="wide")
 
-# --- CSS STYLES ---
-def local_css():
-    st.markdown("""
-    <style>
-        /* IMPORT FONTS */
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Outfit:wght@400;700&display=swap');
-        
-        /* GLOBAL THEME & ANIMATED BACKGROUND */
-        :root {
-            --primary: #7F5AF0;
-            --secondary: #2CB67D;
-            --accent: #FF8906;
-            --bg-dark: #16161A;
-            --bg-card: rgba(255, 255, 255, 0.05);
-            --text-light: #FFFFFE;
-            --glass-border: rgba(255, 255, 255, 0.1);
-        }
-        
-        body {
-            background-color: var(--bg-dark);
-            background-image: 
-                radial-gradient(at 0% 0%, rgba(127, 90, 240, 0.15) 0px, transparent 50%),
-                radial-gradient(at 100% 0%, rgba(44, 182, 125, 0.15) 0px, transparent 50%),
-                radial-gradient(at 100% 100%, rgba(255, 137, 6, 0.1) 0px, transparent 50%);
-            background-attachment: fixed;
-            color: var(--text-light);
-            font-family: 'Outfit', sans-serif;
-        }
-        
-        /* CUSTOM SCROLLBAR */
-        ::-webkit-scrollbar {
-            width: 8px;
-            height: 8px;
-        }
-        ::-webkit-scrollbar-track {
-            background: transparent; 
-        }
-        ::-webkit-scrollbar-thumb {
-            background: rgba(127, 90, 240, 0.3); 
-            border-radius: 4px;
-        }
-        ::-webkit-scrollbar-thumb:hover {
-            background: rgba(127, 90, 240, 0.6); 
-        }
+# --- PREMIUM THEME INJECTION ---
+inject_theme()
 
-        /* HEADERS */
-        h1, h2, h3, h4, h5, h6 {
-            font-family: 'Inter', sans-serif;
-            font-weight: 800 !important;
-            letter-spacing: -0.02em;
-            background: -webkit-linear-gradient(0deg, #FFFFFE, #94A1B2);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin-bottom: 1rem !important;
-        }
-
-        /* GLOSSY CARDS */
-        .card, [data-testid="stMetric"], [data-testid="stExpander"], div.stDataFrame, div[data-testid="stForm"], div[data-testid="stSidebar"] {
-            background: var(--bg-card) !important;
-            backdrop-filter: blur(16px) !important;
-            -webkit-backdrop-filter: blur(16px) !important;
-            border: 1px solid var(--glass-border) !important;
-            border-radius: 20px !important;
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3) !important;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-        
-        .card:hover, [data-testid="stMetric"]:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 12px 40px 0 rgba(127, 90, 240, 0.2) !important;
-            border-color: rgba(127, 90, 240, 0.3) !important;
-        }
-
-        /* METRIC CARDS SPECIFICS */
-        [data-testid="stMetric"] {
-            padding: 1.5rem;
-            text-align: center;
-        }
-        [data-testid="stMetricLabel"] { font-size: 0.9rem; color: #94A1B2 !important; letter-spacing: 0.05em; text-transform: uppercase; }
-        [data-testid="stMetricValue"] { font-size: 2.2rem !important; font-weight: 700; color: var(--text-light) !important; text-shadow: 0 0 20px rgba(127,90,240,0.5); }
-
-        /* BUTTONS - GLOSSY & ANIMATED */
-        div.stButton > button {
-            background: linear-gradient(135deg, rgba(127, 90, 240, 0.8), rgba(44, 182, 125, 0.8)) !important;
-            color: white !important;
-            border: 1px solid rgba(255,255,255,0.2) !important;
-            border-radius: 12px !important;
-            padding: 0.75rem 1.5rem !important;
-            font-weight: 600 !important;
-            font-family: 'Inter', sans-serif !important;
-            letter-spacing: 0.03em !important;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2), inset 0 1px 0 rgba(255,255,255,0.3) !important;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
-            position: relative;
-            overflow: hidden;
-            width: 100%;
-        }
-        
-        div.stButton > button::before {
-            content: '';
-            position: absolute;
-            top: 0; left: -100%;
-            width: 100%; height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-            transition: 0.5s;
-        }
-        
-        div.stButton > button:hover {
-            transform: translateY(-3px) scale(1.02);
-            box-shadow: 0 8px 25px rgba(127, 90, 240, 0.4), inset 0 1px 0 rgba(255,255,255,0.4) !important;
-            border-color: rgba(255,255,255,0.5) !important;
-        }
-        
-        div.stButton > button:hover::before {
-            left: 100%;
-        }
-        
-        div.stButton > button:active {
-            transform: scale(0.98);
-        }
-
-        /* INPUT FIELDS */
-        .stTextInput > div > div > input, .stDateInput > div > div > input, .stSelectbox > div > div > div {
-            background-color: rgba(0,0,0,0.2) !important;
-            color: white !important;
-            border: 1px solid var(--glass-border) !important;
-            border-radius: 10px !important;
-            padding: 0.5rem 1rem !important;
-        }
-        .stTextInput > div > div > input:focus, .stDateInput > div > div > input:focus {
-            border-color: var(--primary) !important;
-            box-shadow: 0 0 0 2px rgba(127, 90, 240, 0.2) !important;
-        }
-
-        /* CUSTOM ANIMATIONS */
-        @keyframes subtleFloat {
-            0% { transform: translateY(0px); }
-            50% { transform: translateY(-5px); }
-            100% { transform: translateY(0px); }
-        }
-        
-        /* APPLY ANIMATION TO MAIN LOGO/HEADER IF DESIRED */
-        h1 { animation: subtleFloat 4s ease-in-out infinite; }
-        
-        /* CAMERA INPUT */
-        div[data-testid="stCameraInput"] {
-            border: 2px solid var(--glass-border);
-            border-radius: 20px;
-            overflow: hidden;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-        }
-        
-        /* LOGIN PAGE STYLES */
-        .login-title {
-            font-family: 'Inter', sans-serif;
-            font-weight: 800;
-            font-size: 3.5rem;
-            color: #ffffff;
-            text-align: center;
-            margin-bottom: 0.2rem;
-            letter-spacing: -0.05em;
-            text-shadow: 0 0 10px rgba(0, 255, 0, 0.6), 0 0 20px rgba(0, 255, 0, 0.4), 0 0 40px rgba(0, 255, 0, 0.2);
-            animation: glow 2s ease-in-out infinite alternate;
-        }
-        
-        .login-subtitle {
-            font-family: 'Inter', sans-serif;
-            font-weight: 300;
-            font-size: 1rem;
-            color: rgba(255, 255, 255, 0.7);
-            text-align: center;
-            font-style: italic;
-            margin-bottom: 2rem;
-            letter-spacing: 0.05em;
-        }
-        
-        @keyframes glow {
-            from { text-shadow: 0 0 10px rgba(44, 182, 125, 0.6), 0 0 20px rgba(44, 182, 125, 0.4); }
-            to { text-shadow: 0 0 20px rgba(44, 182, 125, 1), 0 0 30px rgba(44, 182, 125, 0.6); }
-        }
-        
-        /* STARRY BACKGROUND - FIX */
-        #stars-container {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 1; /* Bring forward to be visible */
-            overflow: hidden;
-            pointer-events: none; /* Let clicks pass through */
-            background: transparent; /* Let the gradient mesh show through */
-        }
-        
-        /* Ensure content sits above stars */
-        .stApp > header, .stApp > div:nth-child(1) {
-            z-index: 2;
-            position: relative;
-        }
-        
-        .star {
-            position: absolute;
-            background: white;
-            border-radius: 50%;
-            opacity: 0;
-            animation: twinkle 5s infinite;
-            box-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
-        }
-        
-        @keyframes twinkle {
-            0% { opacity: 0; transform: translateY(0) scale(0.5); }
-            50% { opacity: 1; transform: translateY(-20px) scale(1.2); }
-            100% { opacity: 0; transform: translateY(-40px) scale(0.5); }
-        }
-    </style>
-    """, unsafe_allow_html=True)
-
-local_css()
 
 def draw_faces(image_pil, faces, current_idx):
     import cv2
@@ -326,40 +118,30 @@ def generate_code():
 def render_header():
     if st.session_state.page == "login": return
     
-    col1, col2, col3 = st.columns([8, 1, 1])
-    with col1: st.write("")
-    with col2:
-        if st.button("🏠 Home", use_container_width=True):
-            st.session_state.page = "home"
-            st.session_state.current_event = None
+    home_clicked, back_clicked = glass_navbar()
+    
+    if home_clicked:
+        st.session_state.page = "home"
+        st.session_state.current_event = None
+        st.session_state.subpage = None
+        st.rerun()
+    if back_clicked:
+        if st.session_state.subpage:
             st.session_state.subpage = None
-            st.rerun()
-    with col3:
-        if st.button("⬅️ Back", use_container_width=True):
-            # Back Logic based on hierarchy
-            if st.session_state.subpage:
-                st.session_state.subpage = None
-            elif st.session_state.page == "event_menu":
-                st.session_state.page = "events_list"
-            elif st.session_state.page in ["events_list", "create_event", "create_folder", "view_folders", "batch_upload"]:
-                st.session_state.page = "home"
-            st.rerun()
+        elif st.session_state.page == "event_menu":
+            st.session_state.page = "events_list"
+        elif st.session_state.page in ["events_list", "create_event", "create_folder", "view_folders", "batch_upload"]:
+            st.session_state.page = "home"
+        st.rerun()
 
 # --- PAGES ---
 
 def login_page():
-    # Starry Background Injection
-    st.markdown("""
-    <div id="stars-container">
-        """ + "".join([f'<div class="star" style="top: {random.randint(0,100)}%; left: {random.randint(0,100)}%; width: {random.randint(1,3)}px; height: {random.randint(1,3)}px; animation-duration: {random.randint(3,8)}s; animation-delay: {random.uniform(0,5)}s;"></div>' for _ in range(100)]) + """
-    </div>
-    """, unsafe_allow_html=True)
-    
     render_header()
     col1, col2, col3 = st.columns([1,2,1])
     with col2:
-        st.markdown('<div class="login-title">EquiVision</div>', unsafe_allow_html=True)
-        st.markdown('<div class="login-subtitle">Vision Beyond Bias. Seeking Equality. Shaping Fairness</div>', unsafe_allow_html=True)
+        # Premium hero title with typewriter subtitle
+        hero_title("EquiVision", "Vision Beyond Bias. Seeking Equality. Shaping Fairness")
         
         if st.session_state.auth_stage == 0:
             auth_mode = st.radio("Choose", ["Sign In", "Register"], horizontal=True, label_visibility="collapsed")
@@ -374,9 +156,8 @@ def login_page():
                         st.session_state.current_user = user['username']
                         st.session_state.user_id = user['id']
                         st.session_state.db_loaded = False
-                        st.success("✅ Signed In!")
+                        st.session_state.show_welcome = True
                         st.session_state.page = "home"
-                        time.sleep(0.5)
                         st.rerun()
                     else:
                         st.error("❌ Invalid credentials. Check username/password or Register.")
@@ -388,9 +169,8 @@ def login_page():
                             st.session_state.current_user = user['username']
                             st.session_state.user_id = user['id']
                             st.session_state.db_loaded = False
-                            st.success("✅ Account Created & Signed In!")
+                            st.session_state.show_welcome = True
                             st.session_state.page = "home"
-                            time.sleep(0.5)
                             st.rerun()
                         else:
                             st.error("❌ Username already taken. Try a different one.")
@@ -400,34 +180,42 @@ def login_page():
 def home_page():
     render_header()
     
+    # Welcome animation (only after login)
+    if st.session_state.get('show_welcome'):
+        welcome_animation(st.session_state.current_user)
+        st.session_state.show_welcome = False
+    
     # Load data from local files if not already loaded
     if not st.session_state.db_loaded:
         load_local_data()
     
-    # Time & Greeting
+    # Premium greeting banner
     now = datetime.now()
-    hour = now.hour
-    greeting = "Good Morning" if hour < 12 else "Good Afternoon" if hour < 18 else "Good Evening"
+    greeting_banner(st.session_state.current_user, now)
     
-    st.markdown(f"# {greeting}, {st.session_state.current_user}! 👋")
-    st.write(f"🕒 **{now.strftime('%I:%M %p | %d %B %Y')}**")
-    st.markdown("### What do you want to do today?")
+    section_heading("What do you want to do today?")
     
-    # 4 Main Options
+    # 4 Main Options with glass cards
     col1, col2 = st.columns(2)
     with col1:
-        if st.button("➕ Create New Event", use_container_width=True, type="primary"):
+        glass_card("➕", "Create New Event")
+        if st.button("Create New Event", use_container_width=True, type="primary", key="btn_create_evt"):
             st.session_state.page = "create_event"
             st.rerun()
-        if st.button("📂 Work with Existing Events", use_container_width=True):
+        st.write("")
+        glass_card("📂", "Existing Events")
+        if st.button("Work with Existing Events", use_container_width=True, key="btn_existing_evt"):
             st.session_state.page = "events_list"
             st.rerun()
             
     with col2:
-        if st.button("📁 Create a New Main Event Folder", use_container_width=True):
+        glass_card("📁", "New Folder")
+        if st.button("Create Main Event Folder", use_container_width=True, key="btn_create_folder"):
             st.session_state.page = "create_folder"
             st.rerun()
-        if st.button("📋 Check Existing Main Event Folders", use_container_width=True):
+        st.write("")
+        glass_card("📋", "Manage Folders")
+        if st.button("Check Existing Folders", use_container_width=True, key="btn_view_folders"):
             st.session_state.page = "view_folders"
             st.rerun()
     
@@ -444,7 +232,7 @@ def home_page():
 
 def create_event():
     render_header()
-    st.header("➕ Create New Event")
+    section_heading("➕ Create New Event", "Set up a new event to start tracking attendance")
     with st.form("create_evt_form"):
         name = st.text_input("Name of Event")
         date = st.date_input("Event Date")
@@ -454,9 +242,6 @@ def create_event():
             if name and password:
                 eid = f"{name}_{str(date)}".replace(" ", "_")
                 
-                # Save locally
-                
-                # Also keep in session state
                 st.session_state.events[eid] = {
                     "name": name,
                     "date": str(date),
@@ -468,8 +253,9 @@ def create_event():
                     "roles": {},
                     "team_members": []
                 }
+                success_confetti()
                 st.success(f"✅ Event '{name}' Created!")
-                save_local_data()  # Persist to local JSON
+                save_local_data()
                 st.session_state.page = "events_list"
                 time.sleep(1)
                 st.rerun()
@@ -478,33 +264,29 @@ def create_event():
 
 def events_list():
     render_header()
-    st.header("📂 Select an Event")
+    section_heading("📂 Select an Event", "Choose an event to manage")
     
     if not st.session_state.events:
         st.info("No events found. Go back and create one!")
         return
     
-    # Track which event is pending deletion
     if 'confirm_delete_event' not in st.session_state:
         st.session_state.confirm_delete_event = None
     
     for eid, evt in list(st.session_state.events.items()):
+        event_list_card(evt['name'], evt['date'], len(evt['data']))
         col1, col2, col3 = st.columns([3, 1, 1])
-        col1.write(f"### {evt['name']}")
-        col1.caption(f"📅 {evt['date']} | 👥 {len(evt['data'])} Participants")
         
         if col2.button("Select", key=f"sel_{eid}", use_container_width=True):
             st.session_state.current_event = eid
             st.session_state.page = "event_menu"
             st.rerun()
         
-        # Delete button with confirmation
         if st.session_state.confirm_delete_event == eid:
             col3.warning("Sure?")
             c_yes, c_no = col3.columns(2)
             if c_yes.button("✅", key=f"yes_del_{eid}"):
                 del st.session_state.events[eid]
-                # Also remove from any folders that reference it
                 for fdata in st.session_state.main_folders.values():
                     if eid in fdata['events']:
                         fdata['events'].remove(eid)
@@ -526,48 +308,47 @@ def event_menu():
     eid = st.session_state.current_event
     evt = st.session_state.events[eid]
     
-    st.header(f"🖥️ {evt['name']}")
-    st.caption(f"Event Dashboard | Date: {evt['date']}")
+    section_heading(f"🖥️ {evt['name']}", f"Event Dashboard · {evt['date']}")
     
-    # 3.1 Options as Grid
+    # Menu Grid with glass cards
     c1, c2, c3 = st.columns(3)
     c4, c5, c6 = st.columns(3)
     
     with c1:
-        st.info("📸 Start Session")
+        menu_card("📸", "Start Session")
         if st.button("Start Taking Attendance", use_container_width=True):
             st.session_state.subpage = "attendance_setup"
             st.rerun()
     with c2:
-        st.info("📋 Records")
+        menu_card("📋", "Records")
         if st.button("View Database", use_container_width=True):
             st.session_state.subpage = "database"
             st.rerun()
     with c3:
-        st.info("📊 Analytics")
+        menu_card("📊", "Analytics")
         if st.button("View Dashboard", use_container_width=True):
             st.session_state.subpage = "dashboard"
             st.rerun()
             
     with c4:
-        st.info("⚙️ Hall Setup")
+        menu_card("⚙️", "Hall Setup")
         if st.button("Select Hall Dimensions", use_container_width=True):
             st.session_state.subpage = "hall_dims"
             st.rerun()
     with c5:
-        st.info("👥 Teams")
+        menu_card("👥", "Teams")
         if st.button("Analyze Team Creation", use_container_width=True):
             st.session_state.subpage = "team_analysis"
             st.rerun()
     with c6:
-        st.info("� Team Roles")
+        menu_card("🏅", "Team Roles")
         if st.button("Manage Team & Roles", use_container_width=True):
             st.session_state.subpage = "team_management"
             st.rerun()
 
     c7, c8, c9 = st.columns(3)
     with c7:
-        st.info("📂 Batch Import")
+        menu_card("📂", "Batch Import")
         if st.button("Upload Multiple Pictures", use_container_width=True):
             st.session_state.subpage = "batch_upload"
             st.rerun()
@@ -576,17 +357,16 @@ def event_menu():
     
     # Render Subpages
     if st.session_state.subpage == "attendance_setup": attendance_setup(evt)
-    elif st.session_state.subpage == "attendance_active": attendance_active(evt) # The actual scanning page
+    elif st.session_state.subpage == "attendance_active": attendance_active(evt)
     elif st.session_state.subpage == "database": database_view(evt)
     elif st.session_state.subpage == "dashboard": dashboard_view(evt)
     elif st.session_state.subpage == "hall_dims": hall_dims(evt)
     elif st.session_state.subpage == "team_analysis": team_analysis(evt)
     elif st.session_state.subpage == "team_management": team_management(evt)
-    elif st.session_state.subpage == "team_management": team_management(evt)
     elif st.session_state.subpage == "batch_upload": batch_upload_page(evt)
 
 def attendance_setup(evt):
-    st.subheader("🏁 Start Attendance Session")
+    section_heading("🏁 Start Attendance Session", "Prepare your camera and let AI do the rest")
     
     # Pre-warm FaceEngine so it's ready before user takes a photo
     if st.session_state.face_engine is None:
@@ -602,7 +382,7 @@ def attendance_setup(evt):
 
 def attendance_active(evt):
     mode = st.session_state.get('temp_mode', 'Normal')
-    st.subheader(f"📸 Live Session ({mode})")
+    section_heading(f"📸 Live Session", f"Mode: {mode}")
     
     col1, col2 = st.columns([1.5, 1])
     
@@ -672,7 +452,7 @@ def attendance_active(evt):
             face_crop = original_image.crop((left, top, right, bottom))
             
             st.markdown(f"""
-            <div class="card" style="text-align: center; margin-bottom: 20px;">
+            <div class="glass-card" style="text-align: center; margin-bottom: 20px; padding: 1rem;">
                 <h3 style="margin:0;">📝 Person {idx + 1}/{len(faces)}</h3>
             </div>
             """, unsafe_allow_html=True)
@@ -758,6 +538,7 @@ def attendance_active(evt):
                                 fe.known_encodings.append(np.array(face['encoding']))
                                 fe.known_ids.append({'name': name, 'event_id': st.session_state.current_event})
 
+                            success_confetti()
                             st.success(f"✅ Saved {name}!")
                             st.session_state.current_face_idx += 1
                             st.rerun()
@@ -778,7 +559,7 @@ def attendance_active(evt):
         st.rerun()
 
 def database_view(evt):
-    st.subheader("📋 Database")
+    section_heading("📋 Database", "View and manage participant records")
     if evt['data']:
         df = pd.DataFrame(evt['data'])
         
@@ -809,8 +590,7 @@ def database_view(evt):
         st.info("Empty database.")
 
 def dashboard_view(evt):
-    st.subheader("📊 Analytics Dashboard")
-    st.write("Filter Participants:")
+    section_heading("📊 Analytics Dashboard", "Real-time insights into attendance data")
     age_range = st.slider("Select Age Range", 0, 100, (0, 100))
     
     if evt['data']:
@@ -820,7 +600,7 @@ def dashboard_view(evt):
             df = df[(df['age'] >= age_range[0]) & (df['age'] <= age_range[1])]
             
         # Stats
-        st.markdown("### Key Metrics")
+        section_heading("Key Metrics")
         c1, c2, c3, c4 = st.columns(4)
         c1.metric("Total", len(df))
         c2.metric("Males", len(df[df['gender']=='Male']))
@@ -1120,7 +900,7 @@ def dashboard_view(evt):
                     st.error(f"PDF Error: {e}")
 
 def hall_dims(evt):
-    st.subheader("⚙️ Hall Dimensions")
+    section_heading("⚙️ Hall Dimensions", "Configure seating layout for this event")
     c1, c2 = st.columns(2)
     evt['hall_rows'] = c1.number_input("Rows", 1, 26, evt['hall_rows'])
     evt['hall_cols'] = c2.number_input("Columns", 1, 50, evt['hall_cols'])
@@ -1129,11 +909,12 @@ def hall_dims(evt):
     evt['cluster_size'] = st.number_input("Cluster Size (Same Gender Grouping)", 1, 10, evt.get('cluster_size', 1), help="Number of students of same gender to seat together (e.g. 3 Boys, 3 Girls...)")
     
     if st.button("💾 Save Dimensions"):
-        save_local_data()  # Persist locally
+        save_local_data()
+        success_confetti()
         st.success(f"✅ Dimensions Saved! Cluster: {evt.get('cluster_size', 1)}")
 
 def team_analysis(evt):
-    st.subheader("👥 Analyze Team Creation")
+    section_heading("👥 Analyze Team Creation", "Balance gender ratios across teams")
     # 3.6 Advice Logic
     df = pd.DataFrame(evt['data'])
     total = len(df)
@@ -1153,8 +934,7 @@ def team_analysis(evt):
                 st.write(f"**Team {i+1}**: {[p['gender'] for p in t]}")
 
 def batch_upload_page(evt):
-    st.subheader("📂 Batch Upload Multiple Pictures")
-    st.info("Select a folder of images to auto-register participants.")
+    section_heading("📂 Batch Upload", "Auto-register participants from multiple images")
     st.caption("Naming convention: P1, P2... (If multiple: P1-1M, P1-2F...)")
     
     uploaded_files = st.file_uploader("Choose images...", accept_multiple_files=True, type=['jpg', 'png', 'jpeg'])
@@ -1310,24 +1090,26 @@ def batch_upload_page(evt):
                 for w in warnings_list:
                     st.warning(w)
                     
+            success_confetti()
             st.success(f"✅ Batch Processing Complete! Registered {processed_count} new participants.")
             time.sleep(3) # Give time to read warnings
             st.rerun()
 
 def create_folder():
     render_header()
-    st.header("📁 Create Main Event Folder")
+    section_heading("📁 Create Main Event Folder", "Group related events together")
     f_name = st.text_input("Folder Name")
     if st.button("Create"):
         st.session_state.main_folders[f_name] = {"date": str(datetime.now().date()), "events": []}
         save_local_data()
-        st.success("Created!")
+        success_confetti()
+        st.success("✅ Folder Created!")
         st.session_state.page = "home"
         st.rerun()
 
 def view_folders():
     render_header()
-    st.header("Manage Main Folders")
+    section_heading("📋 Manage Folders", "View aggregated stats and manage events")
     
     if not st.session_state.main_folders:
         st.info("No folders. Create one!")
@@ -1434,7 +1216,7 @@ try:
 except: pass
 
 def team_management(evt):
-    st.header("🤝 Team Role Allocation")
+    section_heading("🤝 Team Role Allocation", "Define roles, add members, and run smart allocation")
     
     # Initialize structures if missing
     if 'roles' not in evt: evt['roles'] = {}

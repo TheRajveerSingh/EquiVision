@@ -255,6 +255,257 @@
       ],
       "roles": {},
       "team_members": []
+    },
+    "Aditya_Birthday_2026-07-08": {
+      "name": "Aditya Birthday",
+      "date": "2026-07-08",
+      "password": "123456",
+      "hall_rows": 3,
+      "hall_cols": 10,
+      "cluster_size": 1,
+      "data": [
+        {
+          "sl_no": 1,
+          "gender": "Male",
+          "seat": "Row A, Seat 2",
+          "name": "R1",
+          "id": "1",
+          "branch": "BDA",
+          "age": 24,
+          "timestamp": "2026-02-15 21:51:49.011255"
+        },
+        {
+          "sl_no": 2,
+          "gender": "Female",
+          "seat": "Row A, Seat 1",
+          "name": "Vainavi",
+          "id": "2",
+          "branch": "Core",
+          "age": 18,
+          "timestamp": "2026-02-15 21:52:13.322716"
+        },
+        {
+          "sl_no": 3,
+          "gender": "Male",
+          "seat": "Row A, Seat 4",
+          "name": "JJ",
+          "id": "3",
+          "branch": "ML",
+          "age": 22,
+          "timestamp": "2026-02-15 21:52:53.058876"
+        },
+        {
+          "sl_no": 4,
+          "gender": "Male",
+          "seat": "Row A, Seat 6",
+          "name": "Aditya",
+          "id": "4",
+          "branch": "AI",
+          "age": 20,
+          "timestamp": "2026-02-15 21:53:05.939376"
+        }
+      ],
+      "roles": {},
+      "team_members": []
+    },
+    "Aaryan_New_2026-02-15": {
+      "name": "Aaryan New",
+      "date": "2026-02-15",
+      "password": "123456",
+      "hall_rows": 3,
+      "hall_cols": 10,
+      "cluster_size": 3,
+      "data": [
+        {
+          "sl_no": 1,
+          "gender": "Female",
+          "seat": "Row A, Seat 1",
+          "name": "P1",
+          "id": "Batch_Upload",
+          "branch": "N/A",
+          "age": 46,
+          "timestamp": "2026-02-15 21:58:08.635076"
+        },
+        {
+          "sl_no": 2,
+          "gender": "Male",
+          "seat": "Row A, Seat 4",
+          "name": "P2",
+          "id": "Batch_Upload",
+          "branch": "N/A",
+          "age": 52,
+          "timestamp": "2026-02-15 21:58:08.951998"
+        },
+        {
+          "sl_no": 3,
+          "gender": "Male",
+          "seat": "Row A, Seat 5",
+          "name": "P3",
+          "id": "Batch_Upload",
+          "branch": "N/A",
+          "age": 10,
+          "timestamp": "2026-02-15 21:58:10.074254"
+        },
+        {
+          "sl_no": 4,
+          "gender": "Female",
+          "seat": "Row A, Seat 2",
+          "name": "P4",
+          "id": "Batch_Upload",
+          "branch": "N/A",
+          "age": 43,
+          "timestamp": "2026-02-15 21:58:10.399108"
+        },
+        {
+          "sl_no": 5,
+          "gender": "Female",
+          "seat": "Row A, Seat 3",
+          "name": "P5",
+          "id": "Batch_Upload",
+          "branch": "N/A",
+          "age": 89,
+          "timestamp": "2026-02-15 21:58:10.720657"
+        },
+        {
+          "sl_no": 6,
+          "gender": "Female",
+          "seat": "Row A, Seat 7",
+          "name": "P6",
+          "id": "Batch_Upload",
+          "branch": "N/A",
+          "age": 43,
+          "timestamp": "2026-02-15 21:58:11.414556"
+        },
+        {
+          "sl_no": 7,
+          "gender": "Non Binary",
+          "seat": "Row A, Seat 6",
+          "name": "P7",
+          "id": "Batch_Upload",
+          "branch": "N/A",
+          "age": 33,
+          "timestamp": "2026-02-15 21:58:11.742823"
+        },
+        {
+          "sl_no": 8,
+          "gender": "Male",
+          "seat": "Row A, Seat 10",
+          "name": "P8-1M",
+          "id": "Batch_Upload",
+          "branch": "N/A",
+          "age": 22,
+          "timestamp": "2026-02-15 21:58:13.299622"
+        },
+        {
+          "sl_no": 9,
+          "gender": "Male",
+          "seat": "Row B, Seat 1",
+          "name": "P8-2M",
+          "id": "Batch_Upload",
+          "branch": "N/A",
+          "age": 71,
+          "timestamp": "2026-02-15 21:58:13.300616"
+        },
+        {
+          "sl_no": 10,
+          "gender": "Male",
+          "seat": "Row B, Seat 2",
+          "name": "P8-3M",
+          "id": "Batch_Upload",
+          "branch": "N/A",
+          "age": 17,
+          "timestamp": "2026-02-15 21:58:13.301615"
+        },
+        {
+          "sl_no": 11,
+          "gender": "Male",
+          "seat": "Row B, Seat 6",
+          "name": "P8-4M",
+          "id": "Batch_Upload",
+          "branch": "N/A",
+          "age": 47,
+          "timestamp": "2026-02-15 21:58:13.301615"
+        },
+        {
+          "sl_no": 12,
+          "gender": "Male",
+          "seat": "Row B, Seat 7",
+          "name": "P8-5M",
+          "id": "Batch_Upload",
+          "branch": "N/A",
+          "age": 55,
+          "timestamp": "2026-02-15 21:58:13.302622"
+        }
+      ],
+      "roles": {
+        "MC": {
+          "count": 2,
+          "reqs": {
+            "Public Speaking": 6,
+            "Hosting": 5,
+            "Communication": 4,
+            "Confidence": 3,
+            "Leadership": 2
+          }
+        },
+        "Creatives": {
+          "count": 2,
+          "reqs": {
+            "Design": 6,
+            "Art": 5,
+            "Decoration": 4,
+            "Creativity": 3,
+            "Visual Planning": 2
+          }
+        }
+      },
+      "team_members": [
+        {
+          "id": "912967",
+          "name": "Aarav",
+          "gender": "Male",
+          "skills": [
+            "Public Speaking",
+            "Hosting",
+            "Communication",
+            "Leadership"
+          ]
+        },
+        {
+          "id": "818058",
+          "name": "Karan",
+          "gender": "Male",
+          "skills": [
+            "Public Speaking",
+            "Confidence",
+            "Design",
+            "Creativity"
+          ]
+        },
+        {
+          "id": "161490",
+          "name": "Isha",
+          "gender": "Female",
+          "skills": [
+            "Design",
+            "Art",
+            "Decoration",
+            "Creativity",
+            "Visual Planning"
+          ]
+        },
+        {
+          "id": "066510",
+          "name": "Naina",
+          "gender": "Female",
+          "skills": [
+            "Communication",
+            "Confidence",
+            "Art",
+            "Decoration"
+          ]
+        }
+      ]
     }
   },
   "folders": {
@@ -262,10 +513,9 @@
       "date": "2026-02-15",
       "events": [
         "Shivansh_Birthday_2026-12-15",
-        "Harsh_Birthday_2026-09-17",
-        "Raj_2026-02-15"
+        "Aaryan_New_2026-02-15"
       ]
     }
   },
-  "saved_at": "2026-02-15 17:40:33.661854"
+  "saved_at": "2026-02-15 22:12:01.578607"
 }
