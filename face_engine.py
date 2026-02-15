@@ -26,24 +26,38 @@ class FaceEngine:
                     self.known_ids.append({'event_id': evt_id, 'name': person.get('name', 'Unknown')})
 
     def process_image(self, image_pil, detector_backend='ssd'):
-        """Process a single image. Uses ONE backend only — no fallback loop."""
+        """Process a single image. Tries the given backend first, falls back to opencv."""
         if DeepFace is None:
             return []
 
         img_np = np.array(image_pil)
         img_bgr = cv2.cvtColor(img_np, cv2.COLOR_RGB2BGR)
 
-        try:
-            embeddings_obj = DeepFace.represent(
-                img_path=img_bgr,
-                model_name=self.model_name,
-                detector_backend=detector_backend,
-                enforce_detection=False
-            )
-        except Exception as e:
-            print(f"DeepFace Error ({detector_backend}): {e}")
-            return []
+        # Try primary backend first, then fallback
+        backends_to_try = [detector_backend]
+        if detector_backend != 'opencv':
+            backends_to_try.append('opencv')
 
+        for backend in backends_to_try:
+            try:
+                embeddings_obj = DeepFace.represent(
+                    img_path=img_bgr,
+                    model_name=self.model_name,
+                    detector_backend=backend,
+                    enforce_detection=False
+                )
+            except Exception as e:
+                print(f"DeepFace Error ({backend}): {e}")
+                continue
+
+            results = self._parse_faces(embeddings_obj, img_np, img_bgr)
+            if results:
+                return results
+
+        return []
+
+    def _parse_faces(self, embeddings_obj, img_np, img_bgr):
+        """Parse DeepFace output into face data dicts."""
         results = []
         H, W = img_np.shape[:2]
 

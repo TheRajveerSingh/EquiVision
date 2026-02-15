@@ -1203,11 +1203,8 @@ def batch_upload_page(evt):
             
             for i, img_file in enumerate(uploaded_files):
                 status_text.text(f"Processing image {i+1}/{new_files_count}...")
-                current_p_label_base = next_p_num + processed_count # P number based on actual added count to keep sequence? 
-                # Actually, if we skip, the P number shouldn't increment if we want P1, P2... but user said P4 repeated.
-                # If P4 is repeated, we just say P4 repeated.
-                # Let's keep P_num incrementing for every *file* attempt or just successful ones?
-                # Usually successful ones.
+                # P number tracks the photo number (one per image file)
+                current_p_num = next_p_num + i
                 
                 try:
                     # Detect
@@ -1264,20 +1261,17 @@ def batch_upload_page(evt):
                                 raise StopIteration("Hall Full")
 
                             gender = face['gender']
-                            
-                            # Label Logic
-                            # We use len(evt['data']) + 1 to ensure sequential naming based on ACTUAL stored data
-                            # This handles the skipping correctly (e.g. if we skip P4 duplicate, next new person becomes P5 is wrong? 
-                            # No, if P4 is repeated, it's P4.
-                            # Next NEW person should be P5.
-                            # So using len + 1 is safe.
                             next_sl = len(evt['data']) + 1
                             
+                            # Label Logic:
+                            # P number = photo number (current_p_num), same for all faces in one photo
+                            # For multi-face photos: P6-1M, P6-2F, P6-3M, ...
+                            # For single-face photos: P6
                             if is_multi:
                                 g_code = gender[0].upper()
-                                p_label = f"P{next_sl}-{f_idx+1}{g_code}"
+                                p_label = f"P{current_p_num}-{f_idx+1}{g_code}"
                             else:
-                                p_label = f"P{next_sl}"
+                                p_label = f"P{current_p_num}"
                             
                             # Allocate Seat
                             seat = seat_mgr.allocate_seat(evt['data'], gender)

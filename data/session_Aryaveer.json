@@ -124,65 +124,14 @@
       "roles": {},
       "team_members": []
     },
-    "Rajveer_Birthday_2026-11-06": {
-      "name": "Rajveer Birthday",
-      "date": "2026-11-06",
+    "Raj_2026-02-15": {
+      "name": "Raj",
+      "date": "2026-02-15",
       "password": "123456",
       "hall_rows": 5,
       "hall_cols": 10,
       "cluster_size": 1,
-      "data": [
-        {
-          "sl_no": 1,
-          "gender": "Female",
-          "seat": "Row A, Seat 1",
-          "name": "P1",
-          "id": "Batch_Upload",
-          "branch": "N/A",
-          "age": 0,
-          "timestamp": "2026-02-15 14:01:20.643988"
-        },
-        {
-          "sl_no": 2,
-          "gender": "Male",
-          "seat": "Row A, Seat 2",
-          "name": "P2",
-          "id": "Batch_Upload",
-          "branch": "N/A",
-          "age": 0,
-          "timestamp": "2026-02-15 14:01:20.971552"
-        },
-        {
-          "sl_no": 3,
-          "gender": "Female",
-          "seat": "Row A, Seat 3",
-          "name": "P3",
-          "id": "Batch_Upload",
-          "branch": "N/A",
-          "age": 0,
-          "timestamp": "2026-02-15 14:01:21.738770"
-        },
-        {
-          "sl_no": 4,
-          "gender": "Female",
-          "seat": "Row A, Seat 5",
-          "name": "P4",
-          "id": "Batch_Upload",
-          "branch": "N/A",
-          "age": 0,
-          "timestamp": "2026-02-15 14:01:22.080995"
-        },
-        {
-          "sl_no": 5,
-          "gender": "Male",
-          "seat": "Row A, Seat 4",
-          "name": "P5",
-          "id": "Batch_Upload",
-          "branch": "N/A",
-          "age": 0,
-          "timestamp": "2026-02-15 14:01:22.689969"
-        }
-      ],
+      "data": [],
       "roles": {},
       "team_members": []
     }
@@ -191,10 +140,9 @@
     "Birthdays": {
       "date": "2026-02-15",
       "events": [
-        "Shivansh_Birthday_2026-12-15",
-        "Rajveer_Birthday_2026-11-06"
+        "Shivansh_Birthday_2026-12-15"
       ]
     }
   },
-  "saved_at": "2026-02-15 14:13:24.091822"
+  "saved_at": "2026-02-15 14:30:27.694720"
 }
