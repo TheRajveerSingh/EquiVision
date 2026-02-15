@@ -55,8 +55,10 @@ class FaceEngine:
             area = face_obj.get('facial_area', {})
             x, y, w, h = area.get('x', 0), area.get('y', 0), area.get('w', 0), area.get('h', 0)
 
-            # Filter out full-image false positives
-            if w > W * 0.9 and h > H * 0.9:
+            # Filter out full-image false positives (when DeepFace returns the
+            # entire image as a "face"). Use a strict 98% threshold so that
+            # legitimate portrait/headshot photos are not rejected.
+            if w >= W * 0.98 and h >= H * 0.98:
                 continue
 
             # Skip zero-area results

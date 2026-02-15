@@ -3,5 +3,10 @@
     "id": "host",
     "username": "host",
     "password": "123"
+  },
+  "Aryaveer": {
+    "id": "Aryaveer",
+    "username": "Aryaveer",
+    "password": "123456"
   }
 }

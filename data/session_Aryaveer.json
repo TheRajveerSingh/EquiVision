@@ -1,0 +1,200 @@
+{
+  "events": {
+    "Shivansh_Birthday_2026-12-15": {
+      "name": "Shivansh Birthday",
+      "date": "2026-12-15",
+      "password": "123456",
+      "hall_rows": 5,
+      "hall_cols": 10,
+      "cluster_size": 1,
+      "data": [
+        {
+          "sl_no": 1,
+          "gender": "Male",
+          "seat": "Row A, Seat 2",
+          "name": "Rajveer",
+          "id": "1",
+          "branch": "BDA",
+          "age": 21,
+          "timestamp": "2026-02-15 13:57:26.191148"
+        },
+        {
+          "sl_no": 2,
+          "gender": "Male",
+          "seat": "Row A, Seat 4",
+          "name": "Shivansh",
+          "id": "2",
+          "branch": "Core",
+          "age": 18,
+          "timestamp": "2026-02-15 13:57:37.469623"
+        },
+        {
+          "sl_no": 3,
+          "gender": "Female",
+          "seat": "Row A, Seat 1",
+          "name": "Vaishnavi",
+          "id": "3",
+          "branch": "Bio Engineering",
+          "age": 22,
+          "timestamp": "2026-02-15 13:58:04.630414"
+        },
+        {
+          "sl_no": 4,
+          "gender": "Male",
+          "seat": "Row A, Seat 6",
+          "name": "Ashneet jha",
+          "id": "4",
+          "branch": "Core",
+          "age": 17,
+          "timestamp": "2026-02-15 13:58:32.043974"
+        }
+      ],
+      "roles": {},
+      "team_members": []
+    },
+    "Harsh_Birthday_2026-09-17": {
+      "name": "Harsh Birthday",
+      "date": "2026-09-17",
+      "password": "123456",
+      "hall_rows": 5,
+      "hall_cols": 10,
+      "cluster_size": 1,
+      "data": [
+        {
+          "sl_no": NaN,
+          "gender": null,
+          "seat": null,
+          "name": null,
+          "id": null,
+          "branch": null,
+          "age": NaN,
+          "timestamp": null
+        },
+        {
+          "sl_no": NaN,
+          "gender": null,
+          "seat": null,
+          "name": null,
+          "id": null,
+          "branch": null,
+          "age": NaN,
+          "timestamp": null
+        },
+        {
+          "sl_no": NaN,
+          "gender": null,
+          "seat": null,
+          "name": null,
+          "id": null,
+          "branch": null,
+          "age": NaN,
+          "timestamp": null
+        },
+        {
+          "sl_no": NaN,
+          "gender": null,
+          "seat": null,
+          "name": null,
+          "id": null,
+          "branch": null,
+          "age": NaN,
+          "timestamp": null
+        },
+        {
+          "sl_no": NaN,
+          "gender": null,
+          "seat": null,
+          "name": null,
+          "id": null,
+          "branch": null,
+          "age": NaN,
+          "timestamp": null
+        },
+        {
+          "sl_no": null,
+          "gender": null,
+          "seat": null,
+          "name": null,
+          "id": null,
+          "branch": null,
+          "age": null,
+          "timestamp": null
+        }
+      ],
+      "roles": {},
+      "team_members": []
+    },
+    "Rajveer_Birthday_2026-11-06": {
+      "name": "Rajveer Birthday",
+      "date": "2026-11-06",
+      "password": "123456",
+      "hall_rows": 5,
+      "hall_cols": 10,
+      "cluster_size": 1,
+      "data": [
+        {
+          "sl_no": 1,
+          "gender": "Female",
+          "seat": "Row A, Seat 1",
+          "name": "P1",
+          "id": "Batch_Upload",
+          "branch": "N/A",
+          "age": 0,
+          "timestamp": "2026-02-15 14:01:20.643988"
+        },
+        {
+          "sl_no": 2,
+          "gender": "Male",
+          "seat": "Row A, Seat 2",
+          "name": "P2",
+          "id": "Batch_Upload",
+          "branch": "N/A",
+          "age": 0,
+          "timestamp": "2026-02-15 14:01:20.971552"
+        },
+        {
+          "sl_no": 3,
+          "gender": "Female",
+          "seat": "Row A, Seat 3",
+          "name": "P3",
+          "id": "Batch_Upload",
+          "branch": "N/A",
+          "age": 0,
+          "timestamp": "2026-02-15 14:01:21.738770"
+        },
+        {
+          "sl_no": 4,
+          "gender": "Female",
+          "seat": "Row A, Seat 5",
+          "name": "P4",
+          "id": "Batch_Upload",
+          "branch": "N/A",
+          "age": 0,
+          "timestamp": "2026-02-15 14:01:22.080995"
+        },
+        {
+          "sl_no": 5,
+          "gender": "Male",
+          "seat": "Row A, Seat 4",
+          "name": "P5",
+          "id": "Batch_Upload",
+          "branch": "N/A",
+          "age": 0,
+          "timestamp": "2026-02-15 14:01:22.689969"
+        }
+      ],
+      "roles": {},
+      "team_members": []
+    }
+  },
+  "folders": {
+    "Birthdays": {
+      "date": "2026-02-15",
+      "events": [
+        "Shivansh_Birthday_2026-12-15",
+        "Rajveer_Birthday_2026-11-06"
+      ]
+    }
+  },
+  "saved_at": "2026-02-15 14:13:24.091822"
+}

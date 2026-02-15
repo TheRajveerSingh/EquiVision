@@ -483,9 +483,13 @@ def events_list():
     if not st.session_state.events:
         st.info("No events found. Go back and create one!")
         return
-        
-    for eid, evt in st.session_state.events.items():
-        col1, col2 = st.columns([3, 1])
+    
+    # Track which event is pending deletion
+    if 'confirm_delete_event' not in st.session_state:
+        st.session_state.confirm_delete_event = None
+    
+    for eid, evt in list(st.session_state.events.items()):
+        col1, col2, col3 = st.columns([3, 1, 1])
         col1.write(f"### {evt['name']}")
         col1.caption(f"📅 {evt['date']} | 👥 {len(evt['data'])} Participants")
         
@@ -493,6 +497,28 @@ def events_list():
             st.session_state.current_event = eid
             st.session_state.page = "event_menu"
             st.rerun()
+        
+        # Delete button with confirmation
+        if st.session_state.confirm_delete_event == eid:
+            col3.warning("Sure?")
+            c_yes, c_no = col3.columns(2)
+            if c_yes.button("✅", key=f"yes_del_{eid}"):
+                del st.session_state.events[eid]
+                # Also remove from any folders that reference it
+                for fdata in st.session_state.main_folders.values():
+                    if eid in fdata['events']:
+                        fdata['events'].remove(eid)
+                save_local_data()
+                st.session_state.confirm_delete_event = None
+                st.rerun()
+            if c_no.button("❌", key=f"no_del_{eid}"):
+                st.session_state.confirm_delete_event = None
+                st.rerun()
+        else:
+            if col3.button("🗑️", key=f"del_{eid}", use_container_width=True):
+                st.session_state.confirm_delete_event = eid
+                st.rerun()
+        
         st.markdown("---")
 
 def event_menu():
@@ -655,7 +681,11 @@ def attendance_active(evt):
             with c_img: st.image(face_crop, width=100)
             with c_info:
                 st.metric("Gender", face['gender'])
-                st.metric("Confidence", f"{face['confidence']:.1f}%" if isinstance(face['confidence'], (int, float)) else "N/A")
+                try:
+                    conf_val = float(face['confidence'])
+                    st.metric("Confidence", f"{conf_val:.1f}%")
+                except (TypeError, ValueError):
+                    st.metric("Confidence", "N/A")
 
             # Seat Allocation
             cluster = evt.get('cluster_size', 1)
@@ -1314,16 +1344,26 @@ def view_folders():
             # Sub-events management
             st.write(f"**Sub-events**: {len(fdata['events'])}")
             
-            # Add existing event to folder
+            # Add existing events to folder (multiselect for flexibility)
             all_events = list(st.session_state.events.keys())
             avail = [e for e in all_events if e not in fdata['events']]
             
-            sel_evt = st.selectbox("Add Event to Folder", avail, key=f"sel_add_{fname}")
-            if st.button("Add", key=f"btn_add_{fname}"):
-                fdata['events'].append(sel_evt)
-                save_local_data()
-                st.success("Added!")
-                st.rerun()
+            if avail:
+                # Show event names instead of IDs for a better UX
+                avail_names = {e: st.session_state.events[e]['name'] for e in avail}
+                sel_evts = st.multiselect(
+                    "Add Events to Folder",
+                    options=avail,
+                    format_func=lambda e: avail_names.get(e, e),
+                    key=f"sel_add_{fname}"
+                )
+                if st.button("➕ Add Selected", key=f"btn_add_{fname}") and sel_evts:
+                    fdata['events'].extend(sel_evts)
+                    save_local_data()
+                    st.success(f"Added {len(sel_evts)} event(s)!")
+                    st.rerun()
+            else:
+                st.caption("All events already added to this folder.")
                 
             # Aggregate Stats
             if fdata['events']:
@@ -1381,12 +1421,18 @@ def view_folders():
                         st.info("No event data available.")
                 
                 st.write("### 📂 Events in this Folder")
-                for eid in fdata['events']:
+                for eid in list(fdata['events']):
                     if eid in st.session_state.events:
                         evt_name = st.session_state.events[eid]['name']
-                        if st.button(f"Go to {evt_name}", key=f"goto_{fname}_{eid}"):
+                        ec1, ec2, ec3 = st.columns([3, 1, 1])
+                        ec1.write(f"**{evt_name}**")
+                        if ec2.button("📂 Open", key=f"goto_{fname}_{eid}", use_container_width=True):
                              st.session_state.current_event = eid
                              st.session_state.page = "event_menu"
+                             st.rerun()
+                        if ec3.button("🗑️", key=f"rm_{fname}_{eid}", use_container_width=True):
+                             fdata['events'].remove(eid)
+                             save_local_data()
                              st.rerun()
 
 try:
