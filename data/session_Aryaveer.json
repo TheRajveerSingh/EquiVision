@@ -1,261 +1,5 @@
 {
   "events": {
-    "Shivansh_Birthday_2026-12-15": {
-      "name": "Shivansh Birthday",
-      "date": "2026-12-15",
-      "password": "123456",
-      "hall_rows": 5,
-      "hall_cols": 10,
-      "cluster_size": 1,
-      "data": [
-        {
-          "sl_no": 1,
-          "gender": "Male",
-          "seat": "Row A, Seat 2",
-          "name": "Rajveer",
-          "id": "1",
-          "branch": "BDA",
-          "age": 21,
-          "timestamp": "2026-02-15 13:57:26.191148"
-        },
-        {
-          "sl_no": 2,
-          "gender": "Male",
-          "seat": "Row A, Seat 4",
-          "name": "Shivansh",
-          "id": "2",
-          "branch": "Core",
-          "age": 18,
-          "timestamp": "2026-02-15 13:57:37.469623"
-        },
-        {
-          "sl_no": 3,
-          "gender": "Female",
-          "seat": "Row A, Seat 1",
-          "name": "Vaishnavi",
-          "id": "3",
-          "branch": "Bio Engineering",
-          "age": 22,
-          "timestamp": "2026-02-15 13:58:04.630414"
-        },
-        {
-          "sl_no": 4,
-          "gender": "Male",
-          "seat": "Row A, Seat 6",
-          "name": "Ashneet jha",
-          "id": "4",
-          "branch": "Core",
-          "age": 17,
-          "timestamp": "2026-02-15 13:58:32.043974"
-        }
-      ],
-      "roles": {},
-      "team_members": []
-    },
-    "Harsh_Birthday_2026-09-17": {
-      "name": "Harsh Birthday",
-      "date": "2026-09-17",
-      "password": "123456",
-      "hall_rows": 5,
-      "hall_cols": 10,
-      "cluster_size": 1,
-      "data": [
-        {
-          "sl_no": NaN,
-          "gender": null,
-          "seat": null,
-          "name": null,
-          "id": null,
-          "branch": null,
-          "age": NaN,
-          "timestamp": null
-        },
-        {
-          "sl_no": NaN,
-          "gender": null,
-          "seat": null,
-          "name": null,
-          "id": null,
-          "branch": null,
-          "age": NaN,
-          "timestamp": null
-        },
-        {
-          "sl_no": NaN,
-          "gender": null,
-          "seat": null,
-          "name": null,
-          "id": null,
-          "branch": null,
-          "age": NaN,
-          "timestamp": null
-        },
-        {
-          "sl_no": NaN,
-          "gender": null,
-          "seat": null,
-          "name": null,
-          "id": null,
-          "branch": null,
-          "age": NaN,
-          "timestamp": null
-        },
-        {
-          "sl_no": NaN,
-          "gender": null,
-          "seat": null,
-          "name": null,
-          "id": null,
-          "branch": null,
-          "age": NaN,
-          "timestamp": null
-        },
-        {
-          "sl_no": null,
-          "gender": null,
-          "seat": null,
-          "name": null,
-          "id": null,
-          "branch": null,
-          "age": null,
-          "timestamp": null
-        }
-      ],
-      "roles": {},
-      "team_members": []
-    },
-    "Raj_2026-02-15": {
-      "name": "Raj",
-      "date": "2026-02-15",
-      "password": "123456",
-      "hall_rows": 5,
-      "hall_cols": 10,
-      "cluster_size": 1,
-      "data": [
-        {
-          "sl_no": 1,
-          "gender": "Female",
-          "seat": "Row A, Seat 1",
-          "name": "P1",
-          "id": "Batch_Upload",
-          "branch": "N/A",
-          "age": 23,
-          "timestamp": "2026-02-15 17:26:41.359204"
-        },
-        {
-          "sl_no": 2,
-          "gender": "Male",
-          "seat": "Row A, Seat 2",
-          "name": "P2",
-          "id": "Batch_Upload",
-          "branch": "N/A",
-          "age": 46,
-          "timestamp": "2026-02-15 17:26:41.700024"
-        },
-        {
-          "sl_no": 3,
-          "gender": "Male",
-          "seat": "Row A, Seat 4",
-          "name": "P3",
-          "id": "Batch_Upload",
-          "branch": "N/A",
-          "age": 56,
-          "timestamp": "2026-02-15 17:26:43.338623"
-        },
-        {
-          "sl_no": 4,
-          "gender": "Female",
-          "seat": "Row A, Seat 3",
-          "name": "P4",
-          "id": "Batch_Upload",
-          "branch": "N/A",
-          "age": 22,
-          "timestamp": "2026-02-15 17:26:43.734920"
-        },
-        {
-          "sl_no": 5,
-          "gender": "Female",
-          "seat": "Row A, Seat 5",
-          "name": "P5",
-          "id": "Batch_Upload",
-          "branch": "N/A",
-          "age": 19,
-          "timestamp": "2026-02-15 17:26:44.085619"
-        },
-        {
-          "sl_no": 6,
-          "gender": "Female",
-          "seat": "Row A, Seat 7",
-          "name": "P6",
-          "id": "Batch_Upload",
-          "branch": "N/A",
-          "age": 8,
-          "timestamp": "2026-02-15 17:26:44.827435"
-        },
-        {
-          "sl_no": 7,
-          "gender": "Male",
-          "seat": "Row A, Seat 6",
-          "name": "P7",
-          "id": "Batch_Upload",
-          "branch": "N/A",
-          "age": 67,
-          "timestamp": "2026-02-15 17:26:45.178816"
-        },
-        {
-          "sl_no": 8,
-          "gender": "Male",
-          "seat": "Row A, Seat 8",
-          "name": "P8-1M",
-          "id": "Batch_Upload",
-          "branch": "N/A",
-          "age": 34,
-          "timestamp": "2026-02-15 17:26:47.354369"
-        },
-        {
-          "sl_no": 9,
-          "gender": "Non-Binary",
-          "seat": "Row A, Seat 10",
-          "name": "P8-2M",
-          "id": "Batch_Upload",
-          "branch": "N/A",
-          "age": 65,
-          "timestamp": "2026-02-15 17:26:47.355369"
-        },
-        {
-          "sl_no": 10,
-          "gender": "Male",
-          "seat": "Row B, Seat 2",
-          "name": "P8-3M",
-          "id": "Batch_Upload",
-          "branch": "N/A",
-          "age": 44,
-          "timestamp": "2026-02-15 17:26:47.355369"
-        },
-        {
-          "sl_no": 11,
-          "gender": "Male",
-          "seat": "Row B, Seat 4",
-          "name": "P8-4M",
-          "id": "Batch_Upload",
-          "branch": "N/A",
-          "age": 44,
-          "timestamp": "2026-02-15 17:26:47.355369"
-        },
-        {
-          "sl_no": 12,
-          "gender": "Male",
-          "seat": "Row B, Seat 6",
-          "name": "P8-5M",
-          "id": "Batch_Upload",
-          "branch": "N/A",
-          "age": 65,
-          "timestamp": "2026-02-15 17:26:47.356368"
-        }
-      ],
-      "roles": {},
-      "team_members": []
-    },
     "Aditya_Birthday_2026-07-08": {
       "name": "Aditya Birthday",
       "date": "2026-07-08",
@@ -435,6 +179,26 @@
           "branch": "N/A",
           "age": 55,
           "timestamp": "2026-02-15 21:58:13.302622"
+        },
+        {
+          "sl_no": 13,
+          "gender": "Male",
+          "seat": "Row B, Seat 8",
+          "name": "Harsh",
+          "id": "",
+          "branch": "",
+          "age": 18,
+          "timestamp": "2026-02-18 11:06:02.678447"
+        },
+        {
+          "sl_no": 14,
+          "gender": "Male",
+          "seat": "Row C, Seat 2",
+          "name": "Rajveer",
+          "id": "",
+          "branch": "",
+          "age": 18,
+          "timestamp": "2026-02-18 11:06:08.330600"
         }
       ],
       "roles": {
@@ -506,16 +270,419 @@
           ]
         }
       ]
+    },
+    "Harsh_Birthday_2026-02-18": {
+      "name": "Harsh Birthday",
+      "date": "2026-02-18",
+      "password": "123456",
+      "hall_rows": 5,
+      "hall_cols": 10,
+      "cluster_size": 1,
+      "data": [
+        {
+          "sl_no": 1,
+          "gender": "Female",
+          "seat": "Row A, Seat 1",
+          "name": "Jackulin",
+          "id": "1",
+          "branch": "AIML",
+          "age": 23,
+          "timestamp": "2026-02-18 11:18:49.980811"
+        },
+        {
+          "sl_no": 2,
+          "gender": "Male",
+          "seat": "Row A, Seat 2",
+          "name": "Rajveer",
+          "id": "2",
+          "branch": "BDA",
+          "age": 18,
+          "timestamp": "2026-02-18 11:19:03.038953"
+        },
+        {
+          "sl_no": 3,
+          "gender": "Female",
+          "seat": "Row A, Seat 3",
+          "name": "V1",
+          "id": "3",
+          "branch": "HJJ",
+          "age": 22,
+          "timestamp": "2026-02-18 11:19:24.075399"
+        }
+      ],
+      "roles": {},
+      "team_members": []
+    },
+    "HH_2026-02-18": {
+      "name": "HH",
+      "date": "2026-02-18",
+      "password": "123456",
+      "hall_rows": 3,
+      "hall_cols": 10,
+      "cluster_size": 3,
+      "data": [
+        {
+          "sl_no": 1,
+          "gender": "Female",
+          "seat": "Row A, Seat 1",
+          "name": "P1",
+          "id": "Batch_Upload",
+          "branch": "N/A",
+          "age": 0,
+          "timestamp": "2026-02-18 11:24:00.451739"
+        },
+        {
+          "sl_no": 2,
+          "gender": "Male",
+          "seat": "Row A, Seat 4",
+          "name": "P2",
+          "id": "Batch_Upload",
+          "branch": "N/A",
+          "age": 0,
+          "timestamp": "2026-02-18 11:24:03.352782"
+        },
+        {
+          "sl_no": 3,
+          "gender": "Male",
+          "seat": "Row A, Seat 5",
+          "name": "P3",
+          "id": "Batch_Upload",
+          "branch": "N/A",
+          "age": 0,
+          "timestamp": "2026-02-18 11:24:11.260443"
+        },
+        {
+          "sl_no": 4,
+          "gender": "Female",
+          "seat": "Row A, Seat 2",
+          "name": "P4",
+          "id": "Batch_Upload",
+          "branch": "N/A",
+          "age": 0,
+          "timestamp": "2026-02-18 11:24:14.195144"
+        },
+        {
+          "sl_no": 5,
+          "gender": "Female",
+          "seat": "Row A, Seat 3",
+          "name": "P5",
+          "id": "Batch_Upload",
+          "branch": "N/A",
+          "age": 0,
+          "timestamp": "2026-02-18 11:24:17.230106"
+        },
+        {
+          "sl_no": 6,
+          "gender": "Female",
+          "seat": "Row A, Seat 7",
+          "name": "P6",
+          "id": "Batch_Upload",
+          "branch": "N/A",
+          "age": 0,
+          "timestamp": "2026-02-18 11:24:22.764958"
+        },
+        {
+          "sl_no": 7,
+          "gender": "Non Binary",
+          "seat": "Row A, Seat 6",
+          "name": "P7",
+          "id": "Batch_Upload",
+          "branch": "N/A",
+          "age": 0,
+          "timestamp": "2026-02-18 11:24:25.704108"
+        },
+        {
+          "sl_no": 8,
+          "gender": "Male",
+          "seat": "Row A, Seat 10",
+          "name": "P8-1M",
+          "id": "Batch_Upload",
+          "branch": "N/A",
+          "age": 0,
+          "timestamp": "2026-02-18 11:24:39.472887"
+        },
+        {
+          "sl_no": 9,
+          "gender": "Male",
+          "seat": "Row B, Seat 1",
+          "name": "P8-2M",
+          "id": "Batch_Upload",
+          "branch": "N/A",
+          "age": 0,
+          "timestamp": "2026-02-18 11:24:39.474907"
+        },
+        {
+          "sl_no": 10,
+          "gender": "Male",
+          "seat": "Row B, Seat 2",
+          "name": "P8-3M",
+          "id": "Batch_Upload",
+          "branch": "N/A",
+          "age": 0,
+          "timestamp": "2026-02-18 11:24:39.477905"
+        },
+        {
+          "sl_no": 11,
+          "gender": "Male",
+          "seat": "Row B, Seat 6",
+          "name": "P8-4M",
+          "id": "Batch_Upload",
+          "branch": "N/A",
+          "age": 0,
+          "timestamp": "2026-02-18 11:24:39.479913"
+        },
+        {
+          "sl_no": 12,
+          "gender": "Male",
+          "seat": "Row B, Seat 7",
+          "name": "P8-5M",
+          "id": "Batch_Upload",
+          "branch": "N/A",
+          "age": 0,
+          "timestamp": "2026-02-18 11:24:39.481908"
+        }
+      ],
+      "roles": {
+        "MC": {
+          "count": 2,
+          "reqs": {
+            "Public Speaking": 6,
+            "Hosting": 5,
+            "Communication": 4,
+            "Confidence": 3,
+            "Leadership": 2
+          }
+        },
+        "Creatives": {
+          "count": 2,
+          "reqs": {
+            "Design": 6,
+            "Art": 5,
+            "Decoration": 4,
+            "Creativity": 3,
+            "Visual Planning": 2
+          }
+        }
+      },
+      "team_members": [
+        {
+          "id": "639522",
+          "name": "Aarav",
+          "gender": "Male",
+          "skills": [
+            "Public Speaking",
+            "Hosting",
+            "Communication",
+            "Leadership"
+          ]
+        },
+        {
+          "id": "376830",
+          "name": "Karan",
+          "gender": "Male",
+          "skills": [
+            "Public Speaking",
+            "Confidence",
+            "Design",
+            "Creativity"
+          ]
+        },
+        {
+          "id": "397774",
+          "name": "Isha",
+          "gender": "Female",
+          "skills": [
+            "Design",
+            "Art",
+            "Decoration",
+            "Creativity",
+            "Visual Planning"
+          ]
+        },
+        {
+          "id": "924716",
+          "name": "Naina",
+          "gender": "Female",
+          "skills": [
+            "Communication",
+            "Confidence",
+            "Art",
+            "Decoration"
+          ]
+        }
+      ]
+    },
+    "Harsh_Birthday_2026-03-06": {
+      "name": "Harsh Birthday",
+      "date": "2026-03-06",
+      "password": "123456",
+      "hall_rows": 5,
+      "hall_cols": 10,
+      "cluster_size": 1,
+      "data": [
+        {
+          "sl_no": 1,
+          "gender": "Male",
+          "seat": "Row A, Seat 2",
+          "name": "Raj",
+          "id": "1",
+          "branch": "BDA",
+          "age": 22,
+          "timestamp": "2026-02-26 14:56:37.024018"
+        },
+        {
+          "sl_no": 2,
+          "gender": "Female",
+          "seat": "Row A, Seat 4",
+          "name": "Dhwani",
+          "id": "2",
+          "branch": "ML",
+          "age": 18,
+          "timestamp": "2026-02-26 14:56:57.379783"
+        },
+        {
+          "sl_no": 3,
+          "gender": "Female",
+          "seat": "Row A, Seat 1",
+          "name": "P1",
+          "id": "Batch_Upload",
+          "branch": "N/A",
+          "age": 23,
+          "timestamp": "2026-02-26 14:59:34.594048"
+        },
+        {
+          "sl_no": 4,
+          "gender": "Male",
+          "seat": "Row A, Seat 6",
+          "name": "P2",
+          "id": "Batch_Upload",
+          "branch": "N/A",
+          "age": 45,
+          "timestamp": "2026-02-26 14:59:36.951393"
+        },
+        {
+          "sl_no": 5,
+          "gender": "Male",
+          "seat": "Row A, Seat 8",
+          "name": "P3",
+          "id": "Batch_Upload",
+          "branch": "N/A",
+          "age": 67,
+          "timestamp": "2026-02-26 14:59:46.649133"
+        },
+        {
+          "sl_no": 6,
+          "gender": "Female",
+          "seat": "Row A, Seat 3",
+          "name": "P4",
+          "id": "Batch_Upload",
+          "branch": "N/A",
+          "age": 78,
+          "timestamp": "2026-02-26 14:59:49.808791"
+        },
+        {
+          "sl_no": 7,
+          "gender": "Female",
+          "seat": "Row A, Seat 5",
+          "name": "P5",
+          "id": "Batch_Upload",
+          "branch": "N/A",
+          "age": 19,
+          "timestamp": "2026-02-26 14:59:52.778873"
+        },
+        {
+          "sl_no": 8,
+          "gender": "Female",
+          "seat": "Row A, Seat 7",
+          "name": "P6",
+          "id": "Batch_Upload",
+          "branch": "N/A",
+          "age": 95,
+          "timestamp": "2026-02-26 14:59:58.492758"
+        },
+        {
+          "sl_no": 9,
+          "gender": "Non Binary",
+          "seat": "Row A, Seat 10",
+          "name": "P7",
+          "id": "Batch_Upload",
+          "branch": "N/A",
+          "age": 34,
+          "timestamp": "2026-02-26 15:00:01.554632"
+        },
+        {
+          "sl_no": 10,
+          "gender": "Male",
+          "seat": "Row B, Seat 2",
+          "name": "P8-1M",
+          "id": "Batch_Upload",
+          "branch": "N/A",
+          "age": 76,
+          "timestamp": "2026-02-26 15:00:18.036253"
+        },
+        {
+          "sl_no": 11,
+          "gender": "Male",
+          "seat": "Row B, Seat 4",
+          "name": "P8-2M",
+          "id": "Batch_Upload",
+          "branch": "N/A",
+          "age": 34,
+          "timestamp": "2026-02-26 15:00:18.038828"
+        },
+        {
+          "sl_no": 12,
+          "gender": "Male",
+          "seat": "Row B, Seat 6",
+          "name": "P8-3M",
+          "id": "Batch_Upload",
+          "branch": "N/A",
+          "age": 12,
+          "timestamp": "2026-02-26 15:00:18.040833"
+        },
+        {
+          "sl_no": 13,
+          "gender": "Male",
+          "seat": "Row B, Seat 8",
+          "name": "P8-4M",
+          "id": "Batch_Upload",
+          "branch": "N/A",
+          "age": 6,
+          "timestamp": "2026-02-26 15:00:18.043387"
+        },
+        {
+          "sl_no": 14,
+          "gender": "Male",
+          "seat": "Row B, Seat 10",
+          "name": "P8-5M",
+          "id": "Batch_Upload",
+          "branch": "N/A",
+          "age": 7,
+          "timestamp": "2026-02-26 15:00:18.045393"
+        }
+      ],
+      "roles": {},
+      "team_members": []
+    },
+    "Hello_2026-05-07": {
+      "name": "Hello",
+      "date": "2026-05-07",
+      "password": "123456",
+      "hall_rows": 5,
+      "hall_cols": 10,
+      "cluster_size": 1,
+      "data": [],
+      "roles": {},
+      "team_members": []
     }
   },
   "folders": {
     "Birthdays": {
       "date": "2026-02-15",
       "events": [
-        "Shivansh_Birthday_2026-12-15",
         "Aaryan_New_2026-02-15"
       ]
     }
   },
-  "saved_at": "2026-02-15 22:12:01.578607"
+  "saved_at": "2026-03-31 13:37:39.842674"
 }
